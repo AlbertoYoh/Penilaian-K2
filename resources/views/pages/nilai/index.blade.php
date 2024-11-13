@@ -8,7 +8,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Mapel</h1>
+      <h1>Nilai</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{route('dashboard')}}">Dashboard</a></li>
@@ -25,33 +25,35 @@
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Data Mapel</h5>
-              <a href="{{route('mapel.create')}}" class="btn btn-primary mb-2">
-                Tambah Data <i class="fa-solid fa-plus ms-2"></i>
-              </a>
-
+              <h5 class="card-title">Nama Siswa</h5>
+              
               <!-- Table with stripped rows -->
               <table class="table table-striped" id="">
                 <thead>
                   <tr>
-                    <th scope="col" width="5%">#</th>
                     <th scope="col" width="50%">Nama</th>
                     <th scope="col" width=15%>Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
-                    @foreach ($siswas as $siswa)
-                        @if (auth()->user()->guru->mapel_id === $siswa->mapel_id)
-                            <tr>
-                              <td></td>
-                              <td>{{$siswa->nama}}</td>
+                  @foreach ($siswas as $siswa)
+                      @if (auth()->user()->guru->mapel_id === $siswa->mapel_id)
+                          <tr>
+                              <td>{{ $siswa->nama }}</td>
                               <td>
-                                <a href="{{route('tambahNilai', $siswa->id)}}" class="btn btn-primary">Tambah Nilai</a>
+                                  @if ($siswa->nilai) <!-- Cek jika siswa sudah memiliki nilai -->
+                                      <!-- Tombol Detail Nilai -->
+                                      <a href="{{ route('detailNilai', $siswa->id) }}" class="btn btn-warning">Detail Nilai</a>
+                                  @else
+                                      <!-- Jika belum ada nilai, tampilkan tombol tambah nilai -->
+                                      <a href="{{ route('tambahNilai', $siswa->id) }}" class="btn btn-primary">Tambah Nilai</a>
+                                  @endif
                               </td>
-                            </tr>
-                        @endif
-                    @endforeach
-                </tbody>
+                          </tr>
+                      @endif
+                  @endforeach
+              </tbody>
+              
               </table>
               <!-- End Table with stripped rows -->
 

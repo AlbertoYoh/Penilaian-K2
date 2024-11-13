@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('siswa_id');
             $table->string('ta');
-            $table->string('produk');
+            $table->string('karya_id');
             $table->string('nilai');
             $table->string('deskripsi');
             $table->string('hasil');

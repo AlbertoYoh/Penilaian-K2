@@ -26,50 +26,63 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Tambah Nilai {{$item->nama}}</h5>
-              <a href="{{route('mapel.create')}}" class="btn btn-primary mb-2">
-                Tambah Data <i class="fa-solid fa-plus ms-2"></i>
-              </a>
 
               <!-- Table with stripped rows -->
-              <table class="table table-striped" id="">
-                <thead>
-                  <tr>
-                    <th scope="col" width="5%">#</th>
-                    <th scope="col" width="10%">Nama</th>
-                    <th scope="col" width="12%">Produk</th>
-                    <th scope="col" width="10%">Nilai</th>
-                    <th scope="col" width="20%">Deskripsi</th>
-                    <th scope="col" width=15%>Hasil</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td></td>
-                    <td>
-                      <input type="text" class="form-control" value="{{$item->nama}}">
-                    </td>
-                    <td>
-                      <select class="form-select" aria-label="Default select example">
-                        <option selected>-- Pilih Produk Siswa --</option>
-                        @foreach ($karyas as $kry)
-                            @if (auth()->user()->guru->mapel_id === $kry->mapel_id)
-                                <option value="{{ $kry->id }}">{{ $kry->nama }}</option>
-                            @endif
-                        @endforeach
-                      </select>
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" name="nilai">
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" name="deskripsi">
-                    </td>
-                    <td>
-                      <input type="text" class="form-control" name="hasil">
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <form action="{{ route('nilai.store', $item->id) }}" method="POST">
+                @csrf
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" width="10%">Nama</th>
+                            <th scope="col" width="12%">Produk</th>
+                            <th scope="col" width="10%">Nilai</th>
+                            <th scope="col" width="20%">Deskripsi</th>
+                            <th scope="col" width="15%">Hasil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {{-- for loop --}}
+                            
+                            <!-- Nama Siswa -->
+                            <td>
+                                <input type="text" class="form-control" value="{{ $item->nama }}" readonly>
+                            </td>
+            
+                            <!-- Produk Siswa -->
+                            <td>
+                                <select class="form-select" name="karya_id" aria-label="Pilih Produk Siswa">
+                                    <option selected disabled>-- Pilih Produk Siswa --</option>
+                                    @foreach ($karyas as $kry)
+                                        @if (auth()->user()->guru->mapel_id === $kry->mapel_id)
+                                            <option value="{{ $kry->id }}">{{ $kry->nama }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </td>
+            
+                            <!-- Nilai -->
+                            <td>
+                                <input type="number" class="form-control" name="nilai" placeholder="Nilai" required>
+                            </td>
+            
+                            <!-- Deskripsi -->
+                            <td>
+                                <input type="text" class="form-control" name="deskripsi" placeholder="Deskripsi" required>
+                            </td>
+            
+                            <!-- Hasil -->
+                            <td>
+                                <input type="text" class="form-control" name="hasil" placeholder="Hasil" required>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            
+                <!-- Tombol Submit -->
+                <button type="submit" class="btn btn-primary mt-3">Simpan Nilai</button>
+            </form>
+            
               <!-- End Table with stripped rows -->
 
             </div>

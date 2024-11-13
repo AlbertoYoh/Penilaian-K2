@@ -16,4 +16,9 @@ class Karya extends Model
     {
         return $this->belongsTo(Mapel::class);
     }
+
+    public function nilai() 
+    {
+        return $this->hasMany(Nilai::class);
+    }
 }

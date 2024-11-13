@@ -27,7 +27,7 @@
             <div class="card-body">
               <h5 class="card-title">Tambah Guru</h5>
 
-              <form action="{{route('guru.store')}}" method="POST">
+              <form action="{{route('guru.store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
                   <label for="inputText" class="col-sm-2 col-form-label">Nama Guru</label>
@@ -73,6 +73,19 @@
                     </select>
                   </div>
                 </div>
+
+                <div class="row mb-3">
+                  <label for="inputText" class="col-sm-2 col-form-label">Tanda Tangan</label>
+                  <div class="col-sm-10">
+                    <input type="file" class="form-control @error('ttd') is-invalid @enderror" name="ttd" placeholder="Masukan Foto Tanda Tangan" accept="image/*">
+                    @error('ttd')
+                        <div class="invalid-feedback">
+                            {{$message}}
+                        </div>
+                    @enderror
+                  </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <button type="submit" class="btn btn-primary">Tambah <i class="fa-solid fa-floppy-disk ms-2"></i></button>

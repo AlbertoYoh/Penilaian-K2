@@ -49,6 +49,10 @@ Route::middleware('auth')->prefix('raport')->group(function () {
     Route::resource('guru', GuruController::class);
 
     // Route Nilai Untuk Guru dan User
+
     Route::get('nilai', [NilaiController::class, 'index'])->name('nilai');
     Route::get('tambahNilai/{id}', [NilaiController::class, 'tambahNilai'])->name('tambahNilai');
+    Route::post('/nilai/store/{id}', [NilaiController::class, 'store'])->name('nilai.store');
+    Route::get('/nilai/detail/{id}', [NilaiController::class, 'detail'])->name('detailNilai');
+    Route::get('/nilai/{id}/export-pdf', [NilaiController::class, 'exportPdf'])->name('nilai.exportPdf');
 });

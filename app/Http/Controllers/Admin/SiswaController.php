@@ -26,8 +26,9 @@ class SiswaController extends Controller
                     return $item->mapel ? $item->mapel->nama : '-'; // Menampilkan nama mapel jika ada
                 })
                 ->addColumn('action', function($item) {
-                    return '
-                        <a class="btn btn-warning d-inline" href="'. Route('siswa.edit', $item->id) .'"><i class="fa-solid fa-pen-to-square"></i></a>
+                    return '<a class="btn btn-warning d-inline" href="'. 
+                        Route('siswa.edit', $item->id) .'">
+                        <i class="fa-solid fa-pen-to-square"></i></a>
                         <form action="'. route('siswa.destroy', $item->id) .'" method="POST" class="d-inline">
                             '. method_field('delete') . csrf_field() .'
                             <button type="submit" class="btn btn-danger">

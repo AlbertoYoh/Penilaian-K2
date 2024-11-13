@@ -21,4 +21,12 @@ class Nilai extends Model
     {
         return $this->belongsTo(Mapel::class);
     }
+    // app/Models/Nilai.php
+
+    public function karya()
+    {
+        return $this->belongsTo(Karya::class, 'karya_id');
+    }
 }
+
+

@@ -56,23 +56,44 @@ class GuruController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(GuruRequest $request)
     {
-        // Buat akun untuk guru di tabel user
+        // Validasi input dari GuruRequest (pastikan input foto dan ttd juga tervalidasi di sini)
+        $request->validate([
+            'nama' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'kelas' => 'required',
+            'mapel_id' => 'required',
+            'ttd' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        //Buat akun untuk guru di tabel user
         $user = new User();
         $user->name = $request->nama;
         $user->email = $request->email;
         $user->password = bcrypt('guru123**');
-        $user->role = 'guru'; // Set role ke 'guru' sesuai permintaan
+        $user->role = 'guru'; // Set role ke 'guru'
         $user->save();
 
-        // Simpan data ke tabel guru
+        //Upload ttd jika ada
+        $ttdPath = null;
+        if ($request->hasFile('ttd')) {
+            $ttdFile = $request->file('ttd');
+            // Simpan file di public/tandatangan
+            $filename = $ttdFile->getClientOriginalName();
+            $ttdFile->move(public_path('tandatangan'), $filename);
+            $ttdPath = 'tandatangan/' . $filename;
+        }
+
+        //Simpan data guru ke tabel guru
         $guru = new Guru();
         $guru->nama = $request->nama;
         $guru->email = $request->email;
         $guru->kelas = $request->kelas;
         $guru->mapel_id = $request->mapel_id;
-        $guru->user_id = $user->id; // hubungkan guru dengan user_id dari tabel user
+        $guru->user_id = $user->id; // Hubungkan dengan user_id dari tabel users
+        $guru->ttd = $ttdPath; // Simpan path tanda tangan
         $guru->save();
 
         return redirect()->route('guru.index')->with('success', 'Data Berhasil Diinputkan');
